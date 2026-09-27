@@ -10,6 +10,7 @@ using SoundPad.Audio;
 using SoundPad.Diagnostics;
 using SoundPad.Models;
 using SoundPad.Services;
+using Loc = SoundPad.Services.Localization;
 
 namespace SoundPad;
 public partial class MainWindow : Window
@@ -28,6 +29,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = this;
+        LanguageSelector.SelectedValue = Loc.Current.Language;
         try
         {
             var initialStore = ResolveInitialStore();
@@ -58,6 +60,12 @@ public partial class MainWindow : Window
             await LoadMissingDurationsAsync();
         };
         PreviewKeyDown += HandlePreviewKeyDown;
+    }
+    private void LanguageChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (LanguageSelector.SelectedValue is not string language) return;
+        Loc.Current.Language = language;
+        UpdatePlaybackModeButton(); UpdateViewMode(); UpdateSetStatus(); RefreshStatus(); RefreshPage();
     }
     private async void AddSounds(object sender, RoutedEventArgs e)
     {
@@ -366,7 +374,7 @@ public partial class MainWindow : Window
     }
     private void UpdatePlaybackModeButton()
     {
-        PlaybackModeButton.Content = stopOtherPadsOnStart ? "Anderes Pad stoppt" : "Zusätzlich starten";
+        PlaybackModeButton.Content = stopOtherPadsOnStart ? Loc.Current["Exclusive"] : Loc.Current["Additive"];
         PlaybackModeButton.ToolTip = stopOtherPadsOnStart
             ? "Ein neues Pad beendet alle anderen laufenden Pads"
             : "Ein neues Pad startet zusätzlich zu laufenden Pads";
@@ -382,7 +390,7 @@ public partial class MainWindow : Window
     {
         PadGrid.Visibility = useListView ? Visibility.Collapsed : Visibility.Visible;
         PadListScroll.Visibility = useListView ? Visibility.Visible : Visibility.Collapsed;
-        ViewModeButton.Content = useListView ? "Pad-Ansicht" : "Listenansicht";
+        ViewModeButton.Content = useListView ? Loc.Current["PadView"] : Loc.Current["ListView"];
         ViewModeButton.ToolTip = useListView ? "Zur Pad-Ansicht wechseln" : "Zur Listenansicht wechseln";
         UpdatePageSize();
         RefreshPage();
@@ -416,7 +424,7 @@ public partial class MainWindow : Window
     }
     private void UpdateSetStatus()
     {
-        SetStatus.Text = hasActiveSet ? "Set: " + Path.GetFileNameWithoutExtension(store.FilePath) : "Kein Set geöffnet";
+        SetStatus.Text = hasActiveSet ? Loc.Current["SetPrefix"] + Path.GetFileNameWithoutExtension(store.FilePath) : Loc.Current["NoSet"];
         SetStatus.ToolTip = hasActiveSet ? store.FilePath : "Ein neues oder gespeichertes Set auswählen";
     }
     private void PollAudio(object? sender, EventArgs e)
@@ -473,10 +481,10 @@ public partial class MainWindow : Window
     private void RefreshStatus()
     {
         var selected = Pads.Count(p => p.IsSelected);
-        SelectionStatus.Text = $"{selected} ausgewählt";
+        SelectionStatus.Text = Loc.Current.Text("Selected", selected);
         ApplyVolumeButton.IsEnabled = selected > 0 && !savingBlocked;
         SelectAllButton.IsEnabled = Pads.Count > 0;
-        SelectAllButton.Content = Pads.Count > 0 && selected == Pads.Count ? "Auswahl aufheben" : "Alle auswählen";
+        SelectAllButton.Content = Pads.Count > 0 && selected == Pads.Count ? Loc.Current["ClearSelection"] : Loc.Current["SelectAll"];
         EmptyState.Visibility = Pads.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         ActiveStatus.Text = $"{Pads.Count(x => x.IsPlaying)} Sounds aktiv · {Pads.Count} Pads";
         LogStatus.Text = savingBlocked ? "Belegung nicht lesbar – Speichern ist für diese Sitzung deaktiviert."
@@ -515,7 +523,7 @@ public partial class MainWindow : Window
         PageNavigation.Visibility = pageCount > 1 ? Visibility.Visible : Visibility.Collapsed;
         PreviousPageButton.IsEnabled = currentPage > 0;
         NextPageButton.IsEnabled = currentPage < pageCount - 1;
-        PageStatus.Text = $"Seite {currentPage + 1} von {pageCount}";
+        PageStatus.Text = Loc.Current.Text("Page", currentPage + 1, pageCount);
     }
     private void PreviousPage(object sender, RoutedEventArgs e)
     {
@@ -555,6 +563,8 @@ public partial class MainWindow : Window
         base.OnClosed(e);
     }
 }
+
+
 
 
 

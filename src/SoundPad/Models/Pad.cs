@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
+using SoundPad.Services;
 
 namespace SoundPad.Models;
 
@@ -25,12 +26,12 @@ public sealed class Pad : INotifyPropertyChanged
     [JsonIgnore] public bool IsLoading { get => loading; set { Set(ref loading, value); Refresh(); } }
     [JsonIgnore] public string? Error { get => error; set { Set(ref error, value); Refresh(); } }
     [JsonIgnore] public int Generation { get; set; }
-    [JsonIgnore] public string Status => IsLoading ? "Lädt …" : Error is not null ? "Datei prüfen" : IsPlaying ? "Läuft" : IsLastPlayed ? "Zuletzt gespielt" : "Bereit";
+    [JsonIgnore] public string Status => IsLoading ? Localization.Current["Loading"] : Error is not null ? Localization.Current["CheckFile"] : IsPlaying ? Localization.Current["Playing"] : IsLastPlayed ? Localization.Current["LastPlayed"] : Localization.Current["Ready"];
     [JsonIgnore] public string Symbol => IsLoading ? "…" : IsPlaying ? "■" : Error is not null ? "!" : "▶";
-    [JsonIgnore] public string ModeLabel => Loop ? "↻  Schleife" : "Einmal";
+    [JsonIgnore] public string ModeLabel => Loop ? Localization.Current["Loop"] : Localization.Current["Once"];
     [JsonIgnore] public string TimeLabel => IsPlaying
         ? $"{FormatTime(PositionSeconds)} / {FormatTime(DurationSeconds)}"
-        : DurationSeconds > 0 ? $"Dauer: {FormatTime(DurationSeconds)}" : "Dauer: --:--";
+        : DurationSeconds > 0 ? Localization.Current.Text("Duration", FormatTime(DurationSeconds)) : Localization.Current["UnknownDuration"];
     public event PropertyChangedEventHandler? PropertyChanged;
     public void ResetPosition() => PositionSeconds = 0;
     private static string FormatTime(double seconds)
@@ -46,6 +47,7 @@ public sealed class Pad : INotifyPropertyChanged
         field = value; Changed(name);
     }
 }
+
 
 
 
