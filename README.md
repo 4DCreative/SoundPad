@@ -6,6 +6,8 @@ Soundboard für Windows 11 mit WPF / .NET 10, Visual Studio 2026 und NAudio 2.2.
 SoundPad.sln öffnen, SoundPad als Startprojekt verwenden und F5 drücken.
 Alternativ: dotnet run --project src/SoundPad
 
+Nach einem frischen Clone zuerst die NuGet-Pakete wiederherstellen: In Visual Studio mit Rechtsklick auf die Projektmappe „NuGet-Pakete wiederherstellen“ oder im Projektordner mit `dotnet restore SoundPad.sln`. Die Dateien unter `obj/`, einschließlich `project.assets.json`, werden bewusst nicht in Git gespeichert und entstehen dabei lokal. Erforderlich sind das .NET-10-SDK sowie die Visual-Studio-Workload „.NET-Desktopentwicklung“.
+
 - „Sound hinzufügen“ importiert eine oder mehrere WAV-/MP3-Dateien.
 - Antippen startet, erneutes Antippen stoppt; der nächste Start beginnt von vorn.
 - Jedes Pad zeigt seine Gesamtdauer. Während der Wiedergabe erscheint die aktuelle Position als „Position / Gesamtdauer“; bei einer Schleife beginnt die Positionsanzeige nach jedem Durchlauf wieder bei 0:00.
