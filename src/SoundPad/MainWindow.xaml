@@ -1,0 +1,183 @@
+<Window x:Class="SoundPad.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:controls="clr-namespace:SoundPad.Controls"
+ Title="SoundPad" Icon="/assets/SoundPad.ico" Width="1200" Height="800" MinWidth="540" MinHeight="460"
+ Background="#11151C" Foreground="#F1F5F9" FontFamily="Segoe UI" FontSize="16">
+ <Window.Resources>
+  <Style TargetType="Button">
+   <Setter Property="Background" Value="#253141"/><Setter Property="Foreground" Value="#F1F5F9"/>
+   <Setter Property="Padding" Value="18,12"/><Setter Property="MinHeight" Value="48"/>
+   <Setter Property="BorderThickness" Value="1"/><Setter Property="BorderBrush" Value="#405168"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Frame" Property="Opacity" Value=".85"/></Trigger>
+     <Trigger Property="IsPressed" Value="True"><Setter TargetName="Frame" Property="Opacity" Value=".65"/></Trigger>
+     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="White"/></Trigger>
+     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Frame" Property="Opacity" Value=".4"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+ </Window.Resources>
+ <Grid Margin="24" Background="#11151C">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <WrapPanel Margin="0,0,0,20">
+   <StackPanel Margin="0,0,24,10"><TextBlock Text="SoundPad" FontSize="32" FontWeight="SemiBold"/><TextBlock Text="Deine Sounds. Ein Fingertipp." Foreground="#91A3BA" FontSize="14"/><TextBlock x:Name="SetStatus" Text="Kein Set geöffnet" Foreground="#7DD3FC" FontSize="12" Margin="0,3,0,0"/></StackPanel>
+   <Button x:Name="AddButton" Content="+ Sound hinzufügen" Click="AddSounds" Margin="0,6,12,10"/>
+   <Button Content="Neues Set" Click="NewSet" Margin="0,6,12,10" ToolTip="Ein leeres SoundPad-Set anlegen"/>
+   <Button Content="Set öffnen" Click="OpenSet" Margin="0,6,12,10" ToolTip="Ein gespeichertes SoundPad-Set öffnen"/>
+   <Button Content="Set speichern unter…" Click="SaveSetAs" Margin="0,6,12,10" ToolTip="Die aktuelle Belegung als neue Set-Datei speichern"/>
+   <Button Content="Vollbild" Click="ToggleFullScreen" Margin="0,6,12,10" ToolTip="Vollbild umschalten; Escape beendet Vollbild"/>
+   <Button Content="Logs" Click="OpenLogs" Margin="0,6,0,10"/>
+  </WrapPanel>
+
+  <Grid Grid.Row="1">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="210"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+   <Border Background="#1A2431" BorderBrush="#34465C" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,16,0">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid MinHeight="420">
+     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+     <TextBlock Text="Gesamtlautstärke" TextAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+     <TextBlock Grid.Row="1" Text="{Binding ElementName=MasterSlider,Path=Value,StringFormat={}{0:P0}}" FontSize="30" FontWeight="SemiBold" Foreground="#38BDF8" HorizontalAlignment="Center" Margin="0,4"/>
+     <Grid Grid.Row="2" Margin="0,6" MinHeight="160">
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <TextBlock Text="100 %" Foreground="#91A3BA" FontSize="12" HorizontalAlignment="Center"/>
+      <Slider Grid.Row="1" x:Name="MasterSlider" Orientation="Vertical" Minimum="0" Maximum="1" Value=".8" Width="64" Margin="0,8" ValueChanged="MasterChanged" IsMoveToPointEnabled="True" SmallChange=".01" LargeChange=".1" AutomationProperties.Name="Gesamtlautstärke">
+       <Slider.Template><ControlTemplate TargetType="Slider">
+        <Grid Background="Transparent">
+         <Border Width="8" Background="#405168" CornerRadius="4" Margin="0,17"/>
+         <Track x:Name="PART_Track" Orientation="Vertical" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value}" IsDirectionReversed="False">
+          <Track.DecreaseRepeatButton><RepeatButton Command="Slider.DecreaseLarge" Focusable="False"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.DecreaseRepeatButton>
+          <Track.Thumb><Thumb Height="38" Width="56"><Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="#38BDF8" BorderBrush="#BAE6FD" BorderThickness="1" CornerRadius="9"><Border Height="3" Margin="12,0" Background="#0C4A6E" VerticalAlignment="Center"/></Border></ControlTemplate></Thumb.Template></Thumb></Track.Thumb>
+          <Track.IncreaseRepeatButton><RepeatButton Command="Slider.IncreaseLarge" Focusable="False"><RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate></RepeatButton.Template></RepeatButton></Track.IncreaseRepeatButton>
+         </Track>
+        </Grid>
+       </ControlTemplate></Slider.Template>
+      </Slider>
+      <TextBlock Grid.Row="2" Text="0 %" Foreground="#91A3BA" FontSize="12" HorizontalAlignment="Center"/>
+     </Grid>
+     <StackPanel Grid.Row="3" Margin="0,10,0,0">
+      <TextBlock x:Name="SelectionStatus" Text="0 ausgewählt" Foreground="#91A3BA" TextAlignment="Center" FontSize="13" Margin="0,0,0,8"/>
+      <Button x:Name="SelectAllButton" Content="Alle auswählen" Click="SelectAllPads" FontSize="13" Padding="6,10" Margin="0,0,0,8"/>
+      <Button x:Name="ApplyVolumeButton" Click="ApplyVolumeToSelection" IsEnabled="False" Padding="6,10" FontSize="14" Background="#164E63" BorderBrush="#38BDF8" ToolTip="Gesamtpegel als Startlautstärke der ausgewählten Pads speichern">
+       <TextBlock Text="Auf Auswahl&#10;übertragen" TextAlignment="Center"/>
+      </Button>
+      <TextBlock x:Name="TransferStatus" Foreground="#7DD3FC" FontSize="12" TextWrapping="Wrap" TextAlignment="Center" Margin="0,8,0,0"/>
+
+     </StackPanel>
+    </Grid>
+    </ScrollViewer>
+   </Border>
+   <Grid Grid.Column="1">
+   <Grid x:Name="PadArea" SizeChanged="PadAreaSizeChanged">
+   <StackPanel x:Name="EmptyState" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <TextBlock Text="Dein Soundboard beginnt hier" FontSize="26" TextAlignment="Center"/>
+    <TextBlock Text="Füge WAV- oder MP3-Dateien hinzu." Margin="0,12" Foreground="#91A3BA" TextAlignment="Center"/>
+    <TextBlock Text="Antippen startet. Erneut antippen stoppt." Foreground="#91A3BA" TextAlignment="Center"/>
+   </StackPanel>
+    <ItemsControl x:Name="PadGrid" ItemsSource="{Binding VisiblePads}">
+     <ItemsControl.ItemsPanel><ItemsPanelTemplate><controls:SquarePadPanel ViewportHeight="{Binding ActualHeight, ElementName=PadArea}"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+     <ItemsControl.ItemTemplate><DataTemplate>
+      <Grid Margin="7">
+       <Button Click="TogglePad" Padding="12,10,12,46" BorderBrush="{Binding Color}" ToolTip="{Binding Error}" AutomationProperties.Name="{Binding Name}">
+        <Button.Style><Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+         <Setter Property="Background" Value="#1C2531"/>
+         <Style.Triggers>
+          <DataTrigger Binding="{Binding IsLastPlayed}" Value="True"><Setter Property="Background" Value="#141B25"/><Setter Property="Opacity" Value=".72"/></DataTrigger>
+          <DataTrigger Binding="{Binding IsPlaying}" Value="True"><Setter Property="Background" Value="#155E75"/><Setter Property="BorderThickness" Value="4"/><Setter Property="Opacity" Value="1"/></DataTrigger>
+         </Style.Triggers>
+        </Style></Button.Style>
+        <Grid>
+         <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="30"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+         <Viewbox Stretch="Uniform" StretchDirection="Both" Margin="0,0,0,3">
+          <TextBlock Text="{Binding Symbol}" FontSize="56" TextAlignment="Center"/>
+         </Viewbox>
+         <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Center" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="0,0,0,3"/>
+         <TextBlock Grid.Row="2" Text="{Binding Status}" FontSize="12" TextAlignment="Center" TextTrimming="CharacterEllipsis"/>
+         <TextBlock Grid.Row="3" Text="{Binding TimeLabel}" FontSize="14" FontWeight="SemiBold" Foreground="#BAE6FD" TextAlignment="Center" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+        </Grid>
+       </Button>
+       <TextBlock Text="{Binding ModeLabel}" Margin="16,12" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" IsHitTestVisible="False" Foreground="#C4D2E4"/>
+       <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="PadSelectionChanged"
+                 HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Width="32" Height="32"
+                 ToolTip="Pad für die Übertragung der Startlautstärke auswählen" AutomationProperties.Name="{Binding Name, StringFormat=Auswahl: {0}}">
+        <CheckBox.Template><ControlTemplate TargetType="CheckBox">
+         <Border x:Name="SelectionFrame" Background="#253141" BorderBrush="#91A3BA" BorderThickness="1" CornerRadius="8">
+          <TextBlock x:Name="SelectionMark" Text="□" Foreground="White" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+         </Border>
+         <ControlTemplate.Triggers>
+          <Trigger Property="IsChecked" Value="True">
+           <Setter TargetName="SelectionFrame" Property="Background" Value="#0369A1"/>
+           <Setter TargetName="SelectionFrame" Property="BorderBrush" Value="#BAE6FD"/>
+           <Setter TargetName="SelectionMark" Property="Text" Value="✓"/>
+          </Trigger>
+          <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="SelectionFrame" Property="BorderThickness" Value="3"/></Trigger>
+         </ControlTemplate.Triggers>
+        </ControlTemplate></CheckBox.Template>
+       </CheckBox>
+       <TextBlock Text="{Binding StartVolume, StringFormat=Start: {0:P0}}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="16,0,0,22" FontSize="12" Foreground="#C4D2E4" IsHitTestVisible="False"/>
+       <Button Content="⚙" Click="EditPad" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="4" MinWidth="36" MinHeight="36" Width="36" Height="36" FontSize="16" ToolTip="Pad bearbeiten" AutomationProperties.Name="Pad-Einstellungen"/>
+      </Grid>
+     </DataTemplate></ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <ScrollViewer x:Name="PadListScroll" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly">
+    <ItemsControl ItemsSource="{Binding VisiblePads}">
+     <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+     <ItemsControl.ItemTemplate><DataTemplate>
+      <Border Height="72" Margin="7,0,7,7" BorderBrush="{Binding Color}" BorderThickness="1" CornerRadius="10" Padding="8" Cursor="Hand" MouseLeftButtonUp="ToggleListPad">
+       <Border.Style><Style TargetType="Border">
+        <Setter Property="Background" Value="#1C2531"/>
+        <Style.Triggers>
+         <DataTrigger Binding="{Binding IsLastPlayed}" Value="True"><Setter Property="Background" Value="#141B25"/><Setter Property="Opacity" Value=".72"/></DataTrigger>
+         <DataTrigger Binding="{Binding IsPlaying}" Value="True"><Setter Property="Background" Value="#155E75"/><Setter Property="Opacity" Value="1"/></DataTrigger>
+        </Style.Triggers>
+       </Style></Border.Style>
+       <Grid>
+        <Grid.ColumnDefinitions><ColumnDefinition Width="52"/><ColumnDefinition Width="*"/><ColumnDefinition Width="110"/><ColumnDefinition Width="120"/><ColumnDefinition Width="100"/><ColumnDefinition Width="40"/><ColumnDefinition Width="40"/></Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{Binding Symbol}" VerticalAlignment="Center" TextAlignment="Center" FontSize="28" ToolTip="Start / Stopp"/>
+        <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+         <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+         <TextBlock Text="{Binding ModeLabel}" FontSize="12" Foreground="#C4D2E4"/>
+        </StackPanel>
+        <TextBlock Grid.Column="2" Text="{Binding Status}" VerticalAlignment="Center" TextAlignment="Center" FontSize="13"/>
+        <TextBlock Grid.Column="3" Text="{Binding TimeLabel}" VerticalAlignment="Center" TextAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="#BAE6FD"/>
+        <TextBlock Grid.Column="4" Text="{Binding StartVolume, StringFormat=Start: {0:P0}}" VerticalAlignment="Center" TextAlignment="Center" FontSize="12" Foreground="#C4D2E4"/>
+        <CheckBox Grid.Column="5" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="PadSelectionChanged" VerticalAlignment="Center" HorizontalAlignment="Center" Width="28" Height="28" ToolTip="Pad auswählen"/>
+        <Button Grid.Column="6" Content="⚙" Click="EditPad" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="3" MinWidth="34" MinHeight="34" Width="34" Height="34" FontSize="15" ToolTip="Pad bearbeiten"/>
+       </Grid>
+      </Border>
+     </DataTemplate></ItemsControl.ItemTemplate>
+    </ItemsControl>
+    </ScrollViewer>
+   </Grid>
+  </Grid>
+  </Grid>
+  <Grid Grid.Row="2" Margin="0,18,0,0" VerticalAlignment="Center">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="210"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+   <Button Grid.Column="0" Content="■  Alle stoppen" Background="#682C37" BorderBrush="#FB7185" Click="StopAll"/>
+   <TextBlock Grid.Column="2" x:Name="ActiveStatus" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#91A3BA"/>
+   <WrapPanel x:Name="PageNavigation" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+    <Button x:Name="PreviousPageButton" Content="‹ Zurück" Click="PreviousPage" Padding="12,8" MinHeight="40" Margin="0,0,10,0"/>
+    <TextBlock x:Name="PageStatus" VerticalAlignment="Center" FontSize="14" Foreground="#BAE6FD" Margin="0,0,10,0"/>
+    <Button x:Name="NextPageButton" Content="Weiter ›" Click="NextPage" Padding="12,8" MinHeight="40"/>
+   </WrapPanel>
+   <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+    <Button x:Name="ViewModeButton" Click="ToggleViewMode" Padding="12,8" MinHeight="40" Margin="0,0,10,0" ToolTip="Zwischen Pad- und Listenansicht wechseln"/>
+    <Button x:Name="PlaybackModeButton" Click="TogglePlaybackMode" Padding="12,8" MinHeight="40" ToolTip="Legt fest, ob ein neues Pad andere laufende Pads beendet"/>
+   </WrapPanel>
+  </Grid>
+  <TextBlock Grid.Row="3" x:Name="LogStatus" FontSize="12" Foreground="#91A3BA" TextWrapping="Wrap" Margin="0,8,0,0"/>
+ </Grid>
+</Window>
+
+
+
+
+
+
+
+
