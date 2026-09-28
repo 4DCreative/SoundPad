@@ -4,6 +4,13 @@ All notable user-facing changes are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-09-28
+
+### Added / Hinzugefügt
+
+- MIT License, bilingual project documentation, preview image, and GitHub issue templates.
+- Windows x64 self-contained release packaging and GitHub Actions workflows for build, checks, and releases.
+
 ## [1.0.0] - 2026-09-28
 
 ### Added / Hinzugefügt
@@ -26,3 +33,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Automated checks for mixer behavior, persistence, streaming, and UI rendering.
 
 [1.0.0]: https://github.com/4DCreative/SoundPad/tree/v1.0.0
+[1.0.1]: https://github.com/4DCreative/SoundPad/tree/v1.0.1

@@ -1,18 +1,30 @@
 # SoundPad
 
+[![Build and test](https://github.com/4DCreative/SoundPad/actions/workflows/build.yml/badge.svg)](https://github.com/4DCreative/SoundPad/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/4DCreative/SoundPad)](https://github.com/4DCreative/SoundPad/releases/latest)
+
 [Deutsch](#deutsch) · [English](#english) · [Changelog](CHANGELOG.md)
 
 SoundPad is a touch-friendly Windows soundboard for playing WAV and MP3 files from large pads or a compact list.
 
-> **AI-created project**
+> **AI-created project / KI-erstelltes Projekt**
 >
-> SoundPad was created entirely with AI assistance using OpenAI Codex, guided by the product decisions and feedback of [4DCreative](https://github.com/4DCreative).
+> SoundPad was created entirely with AI assistance using OpenAI Codex, guided by the product decisions and feedback of [4DCreative](https://github.com/4DCreative). SoundPad wurde vollständig mit KI-Unterstützung durch OpenAI Codex erstellt, geführt durch Produktentscheidungen und Feedback von 4DCreative.
 
 ## Deutsch
 
 ### Überblick
 
 SoundPad ist ein touchfreundliches Soundboard für Windows 11. WAV- und MP3-Dateien werden Pads zugeordnet und per Antippen gestartet oder gestoppt. Die Oberfläche ist für den Tablet-Modus ausgelegt und bietet eine Pad- sowie eine Listenansicht.
+
+### Download
+
+Die aktuelle Windows-x64-Version steht unter [GitHub Releases](https://github.com/4DCreative/SoundPad/releases/latest) bereit. Das ZIP-Paket ist eigenständig ausführbar und benötigt keine separate .NET-Installation.
+
+### Vorschau
+
+![SoundPad Pad-Ansicht](docs/images/soundpad-preview.png)
 
 ### Funktionen
 
@@ -78,6 +90,14 @@ dotnet run --project tests/SoundPad.Checks -- --render
 
 SoundPad is a touch-friendly Windows 11 soundboard. Assign WAV or MP3 files to pads, then tap a pad to start or stop its sound. The interface is designed for tablet use and provides both a pad view and a compact list view.
 
+### Download
+
+The current Windows x64 build is available on [GitHub Releases](https://github.com/4DCreative/SoundPad/releases/latest). The ZIP package is self-contained and does not require a separate .NET installation.
+
+### Preview
+
+![SoundPad pad view](docs/images/soundpad-preview.png)
+
 ### Features
 
 - Import WAV and MP3 files; multiple sounds can play at once.
@@ -141,6 +161,12 @@ dotnet run --project tests/SoundPad.Checks -- --render
 The complete history of user-visible changes is maintained in [CHANGELOG.md](CHANGELOG.md). Versions follow semantic versioning: `MAJOR.MINOR.PATCH`.
 
 Die vollständige Liste der für Nutzende relevanten Änderungen steht in [CHANGELOG.md](CHANGELOG.md). Die Versionsnummern folgen dem Schema `MAJOR.MINOR.PATCH`.
+
+## License / Lizenz
+
+SoundPad is licensed under the [MIT License](LICENSE).
+
+SoundPad steht unter der [MIT-Lizenz](LICENSE).
 
 ## Technology / Technik
 

@@ -1,0 +1,19 @@
+name: Feature request
+about: Suggest an improvement for SoundPad
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to improve?
+      description: Describe the use case or problem.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposed solution
+      description: Explain how you imagine the feature working.
+    validations:
+      required: true

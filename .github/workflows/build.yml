@@ -1,0 +1,25 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore dependencies
+        run: dotnet restore SoundPad.sln
+      - name: Build
+        run: dotnet build SoundPad.sln --configuration Release --no-restore
+      - name: Run checks
+        run: dotnet run --project tests/SoundPad.Checks --configuration Release --no-build

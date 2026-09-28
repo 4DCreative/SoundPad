@@ -1,0 +1,34 @@
+name: Bug report
+about: Report a reproducible SoundPad problem
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you for helping improve SoundPad. Please remove personal file paths from logs before posting."
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. ...\n2. ...\n3. ..."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SoundPad version
+      placeholder: "for example, 1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: "for example, Windows 11 24H2"
