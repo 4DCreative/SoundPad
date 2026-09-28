@@ -21,7 +21,7 @@ public sealed class Localization : INotifyPropertyChanged
         ["Additive"] = "Zusätzlich starten", ["Exclusive"] = "Anderes Pad stoppt", ["NoSet"] = "Kein Set geöffnet", ["SetPrefix"] = "Set: ",
         ["Loading"] = "Lädt …", ["CheckFile"] = "Datei prüfen", ["Playing"] = "Läuft", ["LastPlayed"] = "Zuletzt gespielt", ["Ready"] = "Bereit", ["Loop"] = "↻  Schleife", ["Once"] = "Einmal", ["Duration"] = "Dauer: {0}", ["UnknownDuration"] = "Dauer: --:--",
         ["EditPad"] = "Pad bearbeiten", ["Name"] = "Name", ["Color"] = "Farbe", ["Blue"] = "Blau", ["Turquoise"] = "Türkis", ["Orange"] = "Orange", ["Violet"] = "Violett", ["Pink"] = "Rosa", ["Yellow"] = "Gelb", ["RepeatLoop"] = "↻  Sound in Schleife wiederholen", ["StartVolume"] = "Startlautstärke (Gesamtlautstärke)", ["PadVolume"] = "Pad-Lautstärke (relative Lautstärke)", ["Save"] = "Speichern", ["Cancel"] = "Abbrechen", ["RemovePad"] = "Pad entfernen",
-        ["Language"] = "Sprache", ["ActiveSounds"] = "{0} Sounds aktiv · {1} Pads", ["PadSelection"] = "Pad auswählen", ["Edit"] = "Pad bearbeiten"
+        ["Language"] = "Sprache", ["Help"] = "Hilfe", ["HelpText"] = "SoundPad verwenden\n\n• Antippen eines Pads startet oder stoppt den Sound.\n• Mit der Leertaste werden alle Sounds gestoppt.\n• Das Zahnrad öffnet die Einstellungen des jeweiligen Pads.\n• In der Listenansicht startet oder stoppt ein Tipp auf die ganze Zeile den Sound.\n• Mit ‚Anderes Pad stoppt‘ wird beim Start eines Pads jeder andere laufende Sound beendet.", ["ActiveSounds"] = "{0} Sounds aktiv · {1} Pads", ["PadSelection"] = "Pad auswählen", ["Edit"] = "Pad bearbeiten"
     };
     private static readonly IReadOnlyDictionary<string, string> English = new Dictionary<string, string>
     {
@@ -32,7 +32,7 @@ public sealed class Localization : INotifyPropertyChanged
         ["Additive"] = "Start alongside", ["Exclusive"] = "New pad stops others", ["NoSet"] = "No set open", ["SetPrefix"] = "Set: ",
         ["Loading"] = "Loading …", ["CheckFile"] = "Check file", ["Playing"] = "Playing", ["LastPlayed"] = "Last played", ["Ready"] = "Ready", ["Loop"] = "↻  Loop", ["Once"] = "Once", ["Duration"] = "Duration: {0}", ["UnknownDuration"] = "Duration: --:--",
         ["EditPad"] = "Edit pad", ["Name"] = "Name", ["Color"] = "Color", ["Blue"] = "Blue", ["Turquoise"] = "Turquoise", ["Orange"] = "Orange", ["Violet"] = "Violet", ["Pink"] = "Pink", ["Yellow"] = "Yellow", ["RepeatLoop"] = "↻  Repeat sound in a loop", ["StartVolume"] = "Start volume (master volume)", ["PadVolume"] = "Pad volume (relative volume)", ["Save"] = "Save", ["Cancel"] = "Cancel", ["RemovePad"] = "Remove pad",
-        ["Language"] = "Language", ["ActiveSounds"] = "{0} sounds active · {1} pads", ["PadSelection"] = "Select pad", ["Edit"] = "Edit pad"
+        ["Language"] = "Language", ["Help"] = "Help", ["HelpText"] = "Using SoundPad\n\n• Tap a pad to start or stop its sound.\n• Press Space to stop all sounds.\n• The gear icon opens that pad's settings.\n• In list view, tap anywhere on a row to start or stop its sound.\n• With ‘New pad stops others’, starting a pad stops every other sound.", ["ActiveSounds"] = "{0} sounds active · {1} pads", ["PadSelection"] = "Select pad", ["Edit"] = "Edit pad"
     };
 
     public string Language { get => language; set { if (value is not "de" and not "en" || language == value) return; language = value; Persist(); Changed("Item[]"); Changed(nameof(Language)); } }

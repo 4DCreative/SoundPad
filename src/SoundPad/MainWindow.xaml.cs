@@ -29,7 +29,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = this;
-        LanguageSelector.SelectedValue = Loc.Current.Language;
+        SetLanguage(Loc.Current.Language);
         try
         {
             var initialStore = ResolveInitialStore();
@@ -61,12 +61,16 @@ public partial class MainWindow : Window
         };
         PreviewKeyDown += HandlePreviewKeyDown;
     }
-    private void LanguageChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void SetGermanLanguage(object sender, RoutedEventArgs e) => SetLanguage("de");
+    private void SetEnglishLanguage(object sender, RoutedEventArgs e) => SetLanguage("en");
+    private void SetLanguage(string language)
     {
-        if (LanguageSelector.SelectedValue is not string language) return;
         Loc.Current.Language = language;
+        GermanLanguageMenuItem.IsChecked = language == "de";
+        EnglishLanguageMenuItem.IsChecked = language == "en";
         UpdatePlaybackModeButton(); UpdateViewMode(); UpdateSetStatus(); RefreshStatus(); RefreshPage();
     }
+    private void ShowHelp(object sender, RoutedEventArgs e) => MessageBox.Show(this, Loc.Current["HelpText"], Loc.Current["Help"], MessageBoxButton.OK, MessageBoxImage.Information);
     private async void AddSounds(object sender, RoutedEventArgs e)
     {
         var picker = new OpenFileDialog { Filter = "Sounddateien (*.wav;*.mp3)|*.wav;*.mp3", Multiselect = true, Title = "Sounds hinzufügen" };
@@ -486,7 +490,7 @@ public partial class MainWindow : Window
         SelectAllButton.IsEnabled = Pads.Count > 0;
         SelectAllButton.Content = Pads.Count > 0 && selected == Pads.Count ? Loc.Current["ClearSelection"] : Loc.Current["SelectAll"];
         EmptyState.Visibility = Pads.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-        ActiveStatus.Text = $"{Pads.Count(x => x.IsPlaying)} Sounds aktiv · {Pads.Count} Pads";
+        ActiveStatus.Text = Loc.Current.Text("ActiveSounds", Pads.Count(x => x.IsPlaying), Pads.Count);
         LogStatus.Text = savingBlocked ? "Belegung nicht lesbar – Speichern ist für diese Sitzung deaktiviert."
             : AppLog.LastWriteError is not null ? "Loggingfehler: " + AppLog.LastWriteError
             : "Antippen: Start / Stopp · Leertaste: Alle stoppen · ⚙: Pad bearbeiten";

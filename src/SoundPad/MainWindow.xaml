@@ -25,8 +25,20 @@
   </Style>
  </Window.Resources>
  <Grid Margin="24" Background="#11151C">
-  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-  <WrapPanel Margin="0,0,0,20">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <Border Background="#1A2431" BorderBrush="#34465C" BorderThickness="0,0,0,1" CornerRadius="8" Padding="8,3" Margin="0,0,0,16">
+   <DockPanel>
+    <TextBlock Text="SoundPad" FontWeight="SemiBold" Foreground="#BAE6FD" VerticalAlignment="Center"/>
+    <Menu DockPanel.Dock="Right" Background="Transparent" Foreground="#F1F5F9" BorderThickness="0" HorizontalAlignment="Right">
+     <MenuItem Header="{local:Loc Language}" Padding="12,7">
+      <MenuItem x:Name="GermanLanguageMenuItem" Header="Deutsch" Click="SetGermanLanguage"/>
+      <MenuItem x:Name="EnglishLanguageMenuItem" Header="English" Click="SetEnglishLanguage"/>
+     </MenuItem>
+     <MenuItem Header="{local:Loc Help}" Padding="12,7" Click="ShowHelp"/>
+    </Menu>
+   </DockPanel>
+  </Border>
+  <WrapPanel Grid.Row="1" Margin="0,0,0,20">
    <StackPanel Margin="0,0,24,10"><TextBlock Text="SoundPad" FontSize="32" FontWeight="SemiBold"/><TextBlock Text="{local:Loc Tagline}" Foreground="#91A3BA" FontSize="14"/><TextBlock x:Name="SetStatus" Text="{local:Loc NoSet}" Foreground="#7DD3FC" FontSize="12" Margin="0,3,0,0"/></StackPanel>
    <Button x:Name="AddButton" Content="{local:Loc AddSound}" Click="AddSounds" Margin="0,6,12,10"/>
    <Button Content="{local:Loc NewSet}" Click="NewSet" Margin="0,6,12,10" ToolTip="Ein leeres SoundPad-Set anlegen"/>
@@ -36,7 +48,7 @@
    <Button Content="Logs" Click="OpenLogs" Margin="0,6,0,10"/>
   </WrapPanel>
 
-  <Grid Grid.Row="1">
+  <Grid Grid.Row="2">
    <Grid.ColumnDefinitions><ColumnDefinition Width="210"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
    <Border Background="#1A2431" BorderBrush="#34465C" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,16,0">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -157,7 +169,7 @@
    </Grid>
   </Grid>
   </Grid>
-  <Grid Grid.Row="2" Margin="0,18,0,0" VerticalAlignment="Center">
+  <Grid Grid.Row="3" Margin="0,18,0,0" VerticalAlignment="Center">
    <Grid.ColumnDefinitions><ColumnDefinition Width="210"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
    <Button Grid.Column="0" Content="{local:Loc StopAll}" Background="#682C37" BorderBrush="#FB7185" Click="StopAll"/>
    <TextBlock Grid.Column="2" x:Name="ActiveStatus" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#91A3BA"/>
@@ -168,11 +180,10 @@
    </WrapPanel>
    <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
     <Button x:Name="ViewModeButton" Click="ToggleViewMode" Padding="12,8" MinHeight="40" Margin="0,0,10,0" ToolTip="Zwischen Pad- und Listenansicht wechseln"/>
-    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center"><TextBlock Text="{local:Loc Language}" FontSize="12" Foreground="#91A3BA"/><ComboBox x:Name="LanguageSelector" Width="92" SelectedValuePath="Tag" SelectionChanged="LanguageChanged"><ComboBoxItem Content="Deutsch" Tag="de"/><ComboBoxItem Content="English" Tag="en"/></ComboBox></StackPanel>
     <Button x:Name="PlaybackModeButton" Click="TogglePlaybackMode" Padding="12,8" MinHeight="40" ToolTip="Legt fest, ob ein neues Pad andere laufende Pads beendet"/>
    </WrapPanel>
   </Grid>
-  <TextBlock Grid.Row="3" x:Name="LogStatus" FontSize="12" Foreground="#91A3BA" TextWrapping="Wrap" Margin="0,8,0,0"/>
+  <TextBlock Grid.Row="4" x:Name="LogStatus" FontSize="12" Foreground="#91A3BA" TextWrapping="Wrap" Margin="0,8,0,0"/>
  </Grid>
 </Window>
 
